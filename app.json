@@ -1,0 +1,13 @@
+{
+  "name": "tclinic",
+  "displayName": "tclinic",
+  "expo": {
+    "name": "tclinic",
+    "slug": "tclinic",
+    "sdkVersion": "40.0.0",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

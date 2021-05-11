@@ -1,0 +1,6 @@
+export const bloodPresure = require("./../assets/HealthIndex/blood-pressure.png")
+export const bloodOxi = require("./../assets/HealthIndex/bloodOxi.png")
+export const bloodVessel = require("./../assets/HealthIndex/bloodVessel.png")
+export const respo = require("./../assets/HealthIndex/respo.jpg")
+export const temp = require("./../assets/HealthIndex/temp.png")
+export const bloodSugar = require("./../assets/HealthIndex/bloodSugar.jpg")
