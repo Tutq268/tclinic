@@ -89,7 +89,7 @@ const ExamResult = ({ route, navigation }) => {
           backgroundColor: AppColor.white,
           padding: scaledSize(12)
         }}>
-        <View
+       { examResult && examResult.length > 0 && <View
           style={{
             flexDirection: 'row',
             width: '100%',
@@ -107,13 +107,18 @@ const ExamResult = ({ route, navigation }) => {
           <View style={{ flex: 0.3, justifyContent: 'flex-start' }}>
             <Text style={{ fontWeight: '500' }}>Kết quả</Text>
           </View>
-        </View>
+        </View>}
         <FlatList
           style={{ flex: 1, width: '100%', paddingVertical: scaledSize(10) }}
           data={examResult}
           renderItem={(item, index) => _renderItem(item, index)}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => index.toString()}
+          ListEmptyComponent={() => (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ fontSize: 16, fontWeight: '500' }}>{'Chưa có kết quả khám bệnh'}</Text>
+            </View>
+          )}
         />
       </View>
     );

@@ -9,6 +9,7 @@ import { LocaleStorageManager } from '@utils';
 import DropDownPicker from 'react-native-dropdown-picker';
 import I18n from '@locale';
 import moment from 'moment';
+import { ButtonText } from '@component';
 
 const MedicalIndexScreen = ({ medicalIndex }) => {
   const uterineContractionsData = [
@@ -407,7 +408,7 @@ const MedicalIndexScreen = ({ medicalIndex }) => {
             margin: scaledSize(20),
             paddingBottom: scaledSize(20)
           }}>
-          <Button
+          {/* <Button
             title="XÁC NHẬN"
             type="clear"
             containerStyle={{
@@ -418,6 +419,12 @@ const MedicalIndexScreen = ({ medicalIndex }) => {
               backgroundColor: AppColor.color_main
             }}
             titleStyle={{ color: AppColor.white, fontSize: scaledSize(13), fontWeight: '500' }}
+            onPress={() => handleAddMedicalIndex()}
+          /> */}
+            <ButtonText
+            buttonStyle={{ paddingHorizontal: scaledSize(10), width: '100%' }}
+            textStyle={{ fontWeight: '500' }}
+            title="XÁC NHÂN"
             onPress={() => handleAddMedicalIndex()}
           />
         </View>

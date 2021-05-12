@@ -536,6 +536,7 @@ const CreateAppointmentScreen = ({ route, navigation }) => {
       <DateTimePickerModal
         date={dateChoose}
         isVisible={isOpenDatePicker}
+        minimumDate={new Date()}
         mode={mode}
         onConfirm={(date) => {
           setOpenDatePicker(false);

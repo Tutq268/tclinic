@@ -32,6 +32,7 @@ const RescheduleScreen = ({ route, navigation }) => {
   const [appointmentEmail, setAppointmentEmail] = React.useState(appointmentInfo.appointmentEmail);
   const [appointmentPhone, setAppointmentPhone] = React.useState(appointmentInfo.phone);
   const [appointmentNote, setAppointmentNote] = React.useState(appointmentInfo.reason);
+  const [errTextConfirm,setErrTextConfirm] = React.useState(false)
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   const _renderProfile = (data) => {
     let avatarUrl = '';
@@ -234,6 +235,10 @@ const RescheduleScreen = ({ route, navigation }) => {
     );
   };
   const handleRescheduleAppointment = async () => {
+    if(rescheduleNote === ''){
+      setErrTextConfirm(true)
+      return
+    }
     setLoading(true)
     const userId = await LocaleStorageManager.getUserId();
     const date = dateTest.getTime();
@@ -301,8 +306,16 @@ const RescheduleScreen = ({ route, navigation }) => {
             placeholder={'Nhập nội dung xác nhận!'}
             placeholderTextColor="#878686"
             value={rescheduleNote}
-            onChangeText={(text) => setReschedulemNote(text)}
+            onChangeText={(text) => {
+              if(errTextConfirm){
+                setErrTextConfirm(false)
+              }
+              setReschedulemNote(text)
+            }}
           />
+           {errTextConfirm && (
+            <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
+          )}
           <View
             style={{
               flexDirection: 'row',
@@ -420,6 +433,7 @@ const RescheduleScreen = ({ route, navigation }) => {
       <DateTimePickerModal
         date={dateTest}
         isVisible={isOpenDatePicker}
+        minimumDate={new Date()}
         mode={mode}
         onConfirm={(date) => {
           console.log('date: ', date);

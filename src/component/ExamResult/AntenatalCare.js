@@ -3,11 +3,8 @@ import { View, Text, StyleSheet, ScrollView, TextInput, KeyboardAvoidingView } f
 import { Button, Avatar, SearchBar, Icon } from 'react-native-elements';
 import { AppColor } from '@theme';
 import { scaledSize } from '@utils';
-import { SiteMap } from '@navigation';
-import { ScreenName } from '@constant';
-import { LocaleStorageManager } from '@utils';
-import I18n from '@locale';
-import moment from 'moment';
+import { ButtonText } from '@component';
+
 import DropDownPicker from 'react-native-dropdown-picker';
 const AntenatalCare = ({ medicalIndex }) => {
   const [hight, setHight] = React.useState('');
@@ -97,6 +94,7 @@ const AntenatalCare = ({ medicalIndex }) => {
           <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
             <Text style={{ fontSize: scaledSize(14) }}>Cân nặng</Text>
             <TextInput
+             style={styles.inputForm}
               value={weight}
               onChangeText={(text) => {
                 if (arrError.includes('weight')) {
@@ -236,7 +234,7 @@ const AntenatalCare = ({ medicalIndex }) => {
                 if (arrError.includes('waistCircumference')) {
                   clearError('waistCircumference');
                 }
-                setWeight(text);
+                setWaistCircumference(text);
               }}
             />
             {arrError.includes('waistCircumference') && (
@@ -251,7 +249,7 @@ const AntenatalCare = ({ medicalIndex }) => {
             margin: scaledSize(20),
             paddingBottom: scaledSize(20)
           }}>
-          <Button
+          {/* <Button
             title="XÁC NHẬN"
             type="clear"
             containerStyle={{
@@ -263,6 +261,12 @@ const AntenatalCare = ({ medicalIndex }) => {
             }}
             onPress={() => handleAddMedicalIndex()}
             titleStyle={{ color: AppColor.white, fontSize: scaledSize(13), fontWeight: '500' }}
+          /> */}
+            <ButtonText
+            buttonStyle={{ paddingHorizontal: scaledSize(10),width: '100%' }}
+            textStyle={{ fontWeight: '500' }}
+            title="XÁC NHÂN"
+            onPress={() => handleAddMedicalIndex()}
           />
         </View>
       </ScrollView>

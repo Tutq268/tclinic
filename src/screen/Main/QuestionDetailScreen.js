@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   Alert,
   ActivityIndicator,
-  Keyboard
+  Keyboard,
+  SafeAreaView
 } from 'react-native';
 import { Icon, Avatar } from 'react-native-elements';
 import { scaledSize, RNToast } from '@utils';
@@ -28,11 +29,13 @@ const QuestionDetailScreen = ({ route, navigation }) => {
   const [isLoading, setLoading] = React.useState(false);
   const [answer, setAnswer] = React.useState('');
   const _renderAnswer = (data) => {
+
     const doctorInfo = questionItem.askToDoctorExtra;
+    console.log("doctor info: ",doctorInfo)
     let avatarDoctor = '';
-    if (doctorInfo.avatar) {
-      if (doctorInfo.avatar.path) {
-        const filename = doctorInfo.avatar.path.split('uploads/')[1];
+    if (doctorInfo.avatarFull) {
+      if (doctorInfo.avatarFull[0].path) {
+        const filename =  doctorInfo.avatarFull[0].path.split('uploads/')[1];
         avatarDoctor = URL.host + '/resources/' + filename;
       }
     }
@@ -172,7 +175,7 @@ const QuestionDetailScreen = ({ route, navigation }) => {
         style={{
           flex: 1,
           backgroundColor: AppColor.white,
-          marginVertical: scaledSize(5),
+          marginBottom: scaledSize(5),
           paddingHorizontal: scaledSize(16)
         }}>
         <View
@@ -329,6 +332,7 @@ const QuestionDetailScreen = ({ route, navigation }) => {
     );
   };
   return (
+    <SafeAreaView style={styles.container}>
     <KeyboardAvoidingView
       keyboardVerticalOffset={0}
       behavior={Platform.select({ ios: 'padding', android: null })}
@@ -370,13 +374,14 @@ const QuestionDetailScreen = ({ route, navigation }) => {
       {_renderQuestionDetail()}
       {_rendeChatInput()}
     </KeyboardAvoidingView>
+    </SafeAreaView>
+
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    backgroundColor:AppColor.white
   }
 });
 

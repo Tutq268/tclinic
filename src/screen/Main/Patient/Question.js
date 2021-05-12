@@ -147,7 +147,7 @@ const Question = ({ route, navigation }) => {
         keyExtractor={(item, index) => index.toString()}
         ListEmptyComponent={() => (
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16, fontWeight: '500' }}>Bạn chưa có câu hỏi nào!</Text>
+            <Text style={{ fontSize: 16, fontWeight: '500',marginTop:scaledSize(18) }}>Bạn chưa có câu hỏi nào!</Text>
           </View>
         )}
       />

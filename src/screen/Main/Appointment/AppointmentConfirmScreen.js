@@ -21,6 +21,7 @@ const AppointmentConfirmScreen = ({ route, navigation }) => {
   const [confirmNote, setConfirmNote] = React.useState('');
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
+  const [errTextConfirm,setErrTextConfirm] = React.useState(false)
   const _renderProfile = (data) => {
     let avatarUrl = '';
     if (data.avatar) {
@@ -207,6 +208,10 @@ const AppointmentConfirmScreen = ({ route, navigation }) => {
   };
 
   const handleConfirmAppointment = async () => {
+    if(confirmNote === ''){
+      setErrTextConfirm(true)
+      return
+    }
     const userId = await LocaleStorageManager.getUserId();
     setLoading(true);
     const data = {
@@ -271,8 +276,16 @@ const AppointmentConfirmScreen = ({ route, navigation }) => {
             placeholder={'Nhập nội dung xác nhận!'}
             placeholderTextColor="#878686"
             value={confirmNote}
-            onChangeText={(text) => setConfirmNote(text)}
+            onChangeText={(text) => {
+              if(errTextConfirm){
+                setErrTextConfirm(false)
+              }
+              setConfirmNote(text)
+            }}
           />
+           {errTextConfirm && (
+            <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
+          )}
           <View
             style={{
               flexDirection: 'row',

@@ -28,17 +28,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppointmentAction } from '@redux';
 import { LoadingScreen } from '@component';
 import I18n from '@locale';
-import { Header, ButtonText } from '@component';
+import { Header, ButtonText,MedicalDetail } from '@component';
 
 const ReturnExamResultScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { medicalIndex } = useSelector((state) => state.appointment);
   const medicalIndexFormData = [
-    '6077e8c8adc39165484fe82d',
-    '6077e85badc39165484fe82b',
-    '6077e687adc39165484fe829',
-    '6077e654adc39165484fe828',
-    '6077e45b21bc3759c41a4a8f',
+    "6077ea00adc39165484fe82f", //bệnh án thử thuật "Tips"
+    "6077e9c2adc39165484fe82e", // hỗ trợ sinh sản "ReproductiveSupport"
+    "6077e889adc39165484fe82c", //bệnh án chậm kinh "LatePeriod"
+    "6077e6b6adc39165484fe82a", // bệnh án hiếm muộn "Infertility"
+    '6077e8c8adc39165484fe82d', // tiền chuyển dạ "Prelabor"
+    '6077e85badc39165484fe82b', // BỆNH ÁN NỘI KHOA" "Internal"
+    '6077e687adc39165484fe829', // bệnh án phụ khoa "Gynecological"
+    '6077e654adc39165484fe828', // bệnh án khám vú 'Breast
+    '6077e45b21bc3759c41a4a8f', // khám thai quý 3 "AntenatalCareQ3"
     '6077e44d21bc3759c41a4a8e',
     '6077e42921bc3759c41a4a8d'
   ];
@@ -85,6 +89,7 @@ const ReturnExamResultScreen = ({ route, navigation }) => {
       .then((res) => {
         if (res.status === 200) {
           const data = res.data;
+          console.log("medical: ",data)
           const list = data.data.map((item) => {
             return {
               ...item,
@@ -229,6 +234,8 @@ const ReturnExamResultScreen = ({ route, navigation }) => {
       </View>
     );
   };
+
+
   const handleChooseDocument = async () => {
     try {
       const res = await DocumentPicker.pick({
@@ -821,6 +828,7 @@ const ReturnExamResultScreen = ({ route, navigation }) => {
         />
         <ScrollView style={{ backgroundColor: AppColor.background }}>
           {_renderTestInfo()}
+          {medicalIndex && <MedicalDetail mediaclCateCode={medicalCateChoose._id} />}
           {_renderTestContainer()}
           {!medicalIndex ? _renderInputMedicalIndexAction() : _renderAction()}
         </ScrollView>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ScrollView,SafeAreaView } from 'react-native';
 import { Icon, Avatar } from 'react-native-elements';
 import { scaledSize } from '@utils';
 import { AppColor } from '@theme';

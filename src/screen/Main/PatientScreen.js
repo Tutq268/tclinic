@@ -39,16 +39,17 @@ const PatientScreen = ({ navigation }) => {
 
   const getAllPatient = (page) => {
     setLoading(true);
-    setFirstLoading(true);
+    // setFirstLoading(true);
     API.getAllPatient(page)
       .then((res) => {
         if (res.status === 200) {
           const data = res.data;
+          console.log("data: ",data)
           setListPatient(data.result);
           setPatientCount(data.total);
         }
         setLoading(false);
-        setFirstLoading(false);
+        // setFirstLoading(false);
       })
       .catch((err) => {
         setLoading(false);
@@ -74,11 +75,12 @@ const PatientScreen = ({ navigation }) => {
             containerStyle={{ backgroundColor: AppColor.color_main }}
           />
           <ListItem.Content>
-            <ListItem.Title style={{ fontWeight: '500' }}>{item.name}</ListItem.Title>
-            {item.email && (
+          {/* <Text>{item.name}</Text> */}
+          <ListItem.Title style={{ fontWeight: '500' }}>{item.name}</ListItem.Title>
+        
               <ListItem.Subtitle style={{ color: 'grey' }}>{item.email}</ListItem.Subtitle>
-            )}
           </ListItem.Content>
+          
         </ListItem>
       </TouchableOpacity>
     );

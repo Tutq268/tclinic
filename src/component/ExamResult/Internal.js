@@ -3,11 +3,8 @@ import { View, Text, StyleSheet,ScrollView,TextInput,KeyboardAvoidingView} from 
 import { ListItem, Avatar, Button, Icon } from 'react-native-elements';
 import { AppColor } from '@theme';
 import { scaledSize } from '@utils';
-import { SiteMap } from '@navigation';
-import { ScreenName } from '@constant';
-import { LocaleStorageManager } from '@utils';
-import I18n from '@locale';
-import moment from 'moment';
+import { ButtonText } from '@component';
+
 
 const Internal = ({ medicalIndex }) => {
 
@@ -167,7 +164,7 @@ const Internal = ({ medicalIndex }) => {
           margin: scaledSize(20),
           paddingBottom: scaledSize(20)
         }}>
-          <Button
+          {/* <Button
             title="XÁC NHẬN"
             type="clear"
             containerStyle={{
@@ -178,6 +175,12 @@ const Internal = ({ medicalIndex }) => {
               backgroundColor: AppColor.color_main
             }}
             titleStyle={{ color: AppColor.white, fontSize: scaledSize(13), fontWeight: '500' }}
+            onPress={() => handleAddMedicalIndex()}
+          /> */}
+          <ButtonText
+            buttonStyle={{ paddingHorizontal: scaledSize(10), width: '100%' }}
+            textStyle={{ fontWeight: '500' }}
+            title="XÁC NHÂN"
             onPress={() => handleAddMedicalIndex()}
           />
       </View>

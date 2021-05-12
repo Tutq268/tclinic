@@ -195,5 +195,12 @@ API.updteProfile = async (params) => {
   return API.instance.put(`/doctor/updateProfile/${doctorId}`, params);
 };
 
+API.getExamResultByAppointment = (appointmentId) =>{
+  return API.instance.get(`/examination/findResult/appointment/${appointmentId}`)
+}
+
+API.getExamResultByAppointmentVideo = (appointmentId) =>{
+  return API.instance.get(`/examination/findResult/video/${appointmentId}`)
+}
 
 export default API;

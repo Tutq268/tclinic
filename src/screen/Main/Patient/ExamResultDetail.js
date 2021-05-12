@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
   Image,
   TextInput,
   ScrollView,
@@ -22,10 +21,11 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import FileViewer from 'react-native-file-viewer';
 import RNFS from 'react-native-fs';
 import I18n from "@locale";
-import {Header} from  '@component';
+import {Header,MedicalDetail} from  '@component';
 
 const ExamResultDetail = ({ route, navigation }) => {
   const { examInfo } = route.params;
+  console.log("exam info: ",examInfo)
   const [isOpenModal, setOpenModal] = React.useState(false);
   const [imagesViewFull, setImagesViewFull] = React.useState(null);
   // const viewerModal = React.useRef(null)
@@ -274,7 +274,6 @@ const ExamResultDetail = ({ route, navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-
          <Header
           navigation
           title= {I18n.t("exam_result")}
@@ -283,10 +282,11 @@ const ExamResultDetail = ({ route, navigation }) => {
           onPressLeftButton={() => navigation.goBack()}
           // rightIconName="add-circle"
         />
-        <View style={{ flex: 1, flexDirection: 'column', backgroundColor: AppColor.background }}>
+        <ScrollView style={{ flex: 1, flexDirection: 'column', backgroundColor: AppColor.background,marginBottom:scaledSize(16) }}>
           {_renderExamInfo()}
+          {examInfo.medical && <MedicalDetail mediaclCateCode={examInfo.medicalCateId._id} medicalInfo={examInfo.medical} />}
           {examInfo.detail.length > 0 && _renderListResult()}
-        </View>
+        </ScrollView>
       </SafeAreaView>
       {imagesViewFull && (
         <Modal style={{ flex: 1 }} visible={isOpenModal}>

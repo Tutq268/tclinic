@@ -5,36 +5,33 @@ import { AppColor } from '@theme';
 import { scaledSize } from '@utils';
 import { ButtonText } from '@component';
 
-const Breasts = ({ medicalIndex }) => {
 
-  const [breastHistory,setBreastHistory] = React.useState('')
-  const [currentMenstrual,setCurrentMenstrual] = React.useState('')
-  const [reasonForExam,setReasonForExam] = React.useState('')
+const Tips = ({ medicalIndex }) => {
+
   const [clinicalExamination,setClinicalExamination] = React.useState('')
   const [treatment,setTreatment] = React.useState('')
+  const [supportMethod,setSupportMethod] = React.useState('')
+  const [examAgain,setExamAgain] = React.useState('')
   const [arrError, setArrError] = React.useState([]);
 
   const handleAddMedicalIndex = () => {
     let err = [];
-    if (breastHistory === '') err.push('breastHistory');
-    if (currentMenstrual === '') err.push('currentMenstrual');
-    if (reasonForExam === '') err.push('reasonForExam');
     if (clinicalExamination === '') err.push('clinicalExamination');
-    if (treatment === '') err.push('treatment');
-   
+    if (supportMethod === '') err.push('supportMethod');
+
     if (err.length > 0) {
       setArrError(err);
     } else {
       const medical = {
-        breastHistory,
-        currentMenstrual,
-        reasonForExam,
         clinicalExamination,
         treatment,
+        supportMethod,
+        examAgain
       };
       medicalIndex(medical)
     }
   };
+  
   const clearError = (item) => {
     const newError = arrError.filter((i) => i !== item);
     setArrError(newError);
@@ -55,55 +52,6 @@ const Breasts = ({ medicalIndex }) => {
          backgroundColor:AppColor.white
         }}>
         <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-          <Text style={{ fontSize: scaledSize(14) }}>Tiền sử các bệnh về vú</Text>
-          <TextInput
-            style={styles.inputForm}
-            value={breastHistory}
-            onChangeText={(text) => {
-              if (arrError.includes('breastHistory')) {
-                clearError('breastHistory');
-              }
-              setBreastHistory(text);
-            }}
-          />
-          {arrError.includes('breastHistory') && (
-            <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-          )}
-        </View>
-
-        <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-          <Text style={{ fontSize: scaledSize(14) }}>Tình trạng kinh nguyệt hiện tại</Text>
-          <TextInput
-            style={styles.inputForm}
-            value={currentMenstrual}
-            onChangeText={(text) => {
-              if (arrError.includes('currentMenstrual')) {
-                clearError('currentMenstrual');
-              }
-              setCurrentMenstrual(text);
-            }}
-          />
-          {arrError.includes('currentMenstrual') && (
-            <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-          )}
-        </View>
-        <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-          <Text style={{ fontSize: scaledSize(14) }}>Lý do đến khám</Text>
-          <TextInput
-            style={styles.inputForm}
-            value={reasonForExam}
-            onChangeText={(text) => {
-              if (arrError.includes('reasonForExam')) {
-                clearError('reasonForExam');
-              }
-              setReasonForExam(text);
-            }}
-          />
-          {arrError.includes('reasonForExam') && (
-            <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-          )}
-        </View>
-        <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
           <Text style={{ fontSize: scaledSize(14) }}>Khám lâm sàng</Text>
           <TextInput
             style={styles.inputForm}
@@ -115,27 +63,49 @@ const Breasts = ({ medicalIndex }) => {
               setClinicalExamination(text);
             }}
           />
-          {arrError.includes('clinicalExamination') && (
+       {arrError.includes('clinicalExamination') && (
             <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
           )}
         </View>
-
         <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
           <Text style={{ fontSize: scaledSize(14) }}>Điều trị</Text>
           <TextInput
+             style={styles.inputForm}
+             value={treatment}
+             onChangeText={(text) => {
+               setTreatment(text);
+             }}
+           />
+        
+        </View>
+        <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+          <Text style={{ fontSize: scaledSize(14) }}>Phương pháp hỗ trợ</Text>
+          <TextInput
             style={styles.inputForm}
-            value={treatment}
+            value={supportMethod}
             onChangeText={(text) => {
-              if (arrError.includes('treatment')) {
-                clearError('treatment');
+              if (arrError.includes('supportMethod')) {
+                clearError('supportMethod');
               }
-              setTreatment(text);
+              setSupportMethod(text);
             }}
           />
-          {arrError.includes('treatment') && (
+          {arrError.includes('supportMethod') && (
             <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-          )}
+            )}
         </View>
+        <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+          <Text style={{ fontSize: scaledSize(14) }}>Hẹn khám lại</Text>
+          <TextInput
+             style={styles.inputForm}
+             value={examAgain}
+             onChangeText={(text) => {
+               setExamAgain(text);
+             }}
+           />
+        
+        </View>
+        
       </View>
       <View
         style={{
@@ -146,14 +116,13 @@ const Breasts = ({ medicalIndex }) => {
         }}>
           
           <ButtonText
-            buttonStyle={{ paddingHorizontal: scaledSize(10),width: '100%' }}
+            buttonStyle={{ paddingHorizontal: scaledSize(10), width: '100%' }}
             textStyle={{ fontWeight: '500' }}
             title="XÁC NHÂN"
             onPress={() => handleAddMedicalIndex()}
           />
       </View>
     </ScrollView>
-
     </KeyboardAvoidingView>
   );
 };
@@ -172,4 +141,4 @@ const styles = StyleSheet.create({
     fontSize: scaledSize(14)
   }
 });
-export default Breasts;
+export default Tips;

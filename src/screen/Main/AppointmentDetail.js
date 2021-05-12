@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Keyboard, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Keyboard, SafeAreaView,TouchableOpacity } from 'react-native';
 import {  Avatar } from 'react-native-elements';
 import { scaledSize } from '@utils';
 import { AppColor } from '@theme';
@@ -18,6 +18,32 @@ import I18n from '@locale';
 const AppointmentDetail = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { appointmentItem } = useSelector((state) => state.appointment);
+  const [examResultAppointment,setExamResultAppointment] = React.useState(null)
+  React.useEffect(() =>{
+    if(appointmentItem){
+      if(appointmentItem.patientState === 'Examined'){
+        if(appointmentItem.type === "appointment"){
+          API.getExamResultByAppointment(appointmentItem._id).then(res =>{
+            if(res.status === 200){
+              const data = res.data.data
+              setExamResultAppointment(data)
+            }
+          }).catch(err =>{
+            console.log("err: ",err)
+          })
+        }else if(appointmentItem.type === "video"){
+          API.getExamResultByAppointmentVideo(appointmentItem._id).then(res =>{
+            if(res.status === 200){
+              const data = res.data.data
+              setExamResultAppointment(data)
+            }
+          }).catch(err =>{
+            console.log("err: ",err)
+          })
+        }
+      }
+    }
+  },[appointmentItem])
   const [isLoading, setLoading] = React.useState(false);
   const [isOpenModal, setIsOpenModal] = React.useState(false);
   const [cancelNote, setCancelNote] = React.useState('');
@@ -91,7 +117,7 @@ const AppointmentDetail = ({ route, navigation }) => {
           }}>
           <Text style={{ fontSize: scaledSize(14), marginBottom: scaledSize(3) }}>Thời gian</Text>
           <Text style={{ fontSize: scaledSize(14), marginBottom: scaledSize(3) }}>
-            {moment(appointmentItem.createdAt).format('HH:mm - DD/MM/yyyy')}
+            {moment(appointmentItem.appointmentDate).format('HH:mm - DD/MM/yyyy')}
           </Text>
         </View>
         <View
@@ -104,7 +130,7 @@ const AppointmentDetail = ({ route, navigation }) => {
           <Text style={{ fontSize: scaledSize(14), marginBottom: scaledSize(3) }}>
             Thời gian dự tính
           </Text>
-          <Text style={{ fontSize: scaledSize(14), marginBottom: scaledSize(3) }}>30 phút </Text>
+          <Text style={{ fontSize: scaledSize(14), marginBottom: scaledSize(3) }}>{appointmentItem.sessionDuration} phút </Text>
         </View>
         <View
           style={{
@@ -156,6 +182,7 @@ const AppointmentDetail = ({ route, navigation }) => {
             </Text>
           )}
         </View>
+        
         {appointmentItem.patientState === 'Confirmed' && (
           <View
             style={{
@@ -203,6 +230,28 @@ const AppointmentDetail = ({ route, navigation }) => {
               {appointmentItem.rescheduleNote}
             </Text>
           </View>
+        )}
+         {(appointmentItem.patientState === 'Examined' && examResultAppointment)&& (
+          <TouchableOpacity
+            style={{
+              flexDirection: 'column',
+              backgroundColor: AppColor.white,
+              padding: scaledSize(10),
+              marginTop: scaledSize(16)
+            }}
+            onPress={() =>
+              SiteMap.showScreen(navigation, ScreenName.EXAM_RESULT_DETAIL, { examInfo: examResultAppointment })
+            }
+            >
+            <Text
+              style={{
+                fontSize: scaledSize(16),
+                marginBottom: scaledSize(3),
+                color: AppColor.color_main
+              }}>
+              Xem kết quả khám bệnh
+            </Text>
+          </TouchableOpacity>
         )}
       </View>
     );

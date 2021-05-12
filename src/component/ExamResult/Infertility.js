@@ -4,11 +4,11 @@ import { ListItem, Avatar, Button, Icon } from 'react-native-elements';
 import { AppColor } from '@theme';
 import { scaledSize } from '@utils';
 import { ButtonText } from '@component';
-
 import DropDownPicker from 'react-native-dropdown-picker';
 
-const Gynaecological = ({ medicalIndex }) => {
-  const menstrual = [
+const Infertility = ({ medicalIndex }) => {
+
+  const evenlyMenstrualHistory = [
     {
       label: 'Đều',
       value: 1
@@ -18,63 +18,63 @@ const Gynaecological = ({ medicalIndex }) => {
       value: 2
     }
   ];
-
+  const [normalBorn, setNormalBorn] = React.useState('');
+  const [caesarean, setCaesarean] = React.useState('');
   const [isEvenlyMenstrualHistory, setIsEvenlyMenstrualHistory] = React.useState(null);
   const [cycle, setCycle] = React.useState('');
   const [duringTime, setDuringTime] = React.useState('');
-  const [quantity, setQuantity] = React.useState('');
-  const [amenorrhea, setAmenorrhea] = React.useState('');
-  const [menorrhagia, setMenorrhagia] = React.useState('');
-  const [unusualBleeding, setUnusualBleeding] = React.useState('');
+  const [currentMenstrual, setCurrentMenstrual] = React.useState('');
   const [reasonForExam, setReasonForExam] = React.useState('');
-  const [otherSignal, setOtherSignal] = React.useState('');
-  const [careAdvice, setCareAdvice] = React.useState('');
   const [vulvaAndPerineal, setVulvaAndPerineal] = React.useState('');
-  const [vagina, setVagina] = React.useState('');
   const [cervical, setCervical] = React.useState('');
   const [uterusExtra, setUterusExtra] = React.useState('');
+  const [otherSignal, setOtherSignal] = React.useState('');
+  const [treatment, setTreatment] = React.useState('');
+  const [supportMethod, setSupportMethod] = React.useState('');
+  const [examAgain, setExamAgain] = React.useState('');
   const [arrError, setArrError] = React.useState([]);
-  const [isOpenDropdown, setOpenDropdown] = React.useState(false);
+
+  const [isOpenDrop1, setOpenDrop1] = React.useState(false);
+
   const handleAddMedicalIndex = () => {
     let err = [];
-    if (!isEvenlyMenstrualHistory) err.push('isEvenlyMenstrualHistory');
+    if (normalBorn === '') err.push('normalBorn');
+    if (caesarean === '') err.push('caesarean');
     if (cycle === '') err.push('cycle');
     if (duringTime === '') err.push('duringTime');
-    if (quantity === '') err.push('quantity');
-    if (amenorrhea === '') err.push('amenorrhea');
-    if (menorrhagia === '') err.push('menorrhagia');
-    if (unusualBleeding === '') err.push('unusualBleeding');
+    if (currentMenstrual === '') err.push('currentMenstrual');
     if (reasonForExam === '') err.push('reasonForExam');
-    if (otherSignal === '') err.push('otherSignal');
-    if (careAdvice === '') err.push('careAdvice');
     if (vulvaAndPerineal === '') err.push('vulvaAndPerineal');
     if (cervical === '') err.push('cervical');
-    if (vagina === '') err.push('vagina');
     if (uterusExtra === '') err.push('uterusExtra');
+    if (supportMethod === '') err.push('supportMethod');
+    if (examAgain === '') err.push('examAgain');
+    if (!isEvenlyMenstrualHistory) err.push('isEvenlyMenstrualHistory');
+    const [arrError, setArrError] = React.useState([]);
+
 
     if (err.length > 0) {
       setArrError(err);
     } else {
       const medical = {
-        isEvenlyMenstrualHistory: isEvenlyMenstrualHistory === 1 ? true : false,
+        normalBorn,
+        caesarean,
+        isEvenlyMenstrualHistory,
         cycle,
         duringTime,
-        quantity,
-        amenorrhea,
-        menorrhagia,
-        unusualBleeding,
+        currentMenstrual,
         reasonForExam,
-        otherSignal,
-        careAdvice,
         vulvaAndPerineal,
         cervical,
-        vagina,
-        uterusExtra
+        uterusExtra,
+        otherSignal,
+        treatment,
+        supportMethod,
+        examAgain
       };
       medicalIndex(medical);
     }
   };
-
   const clearError = (item) => {
     const newError = arrError.filter((i) => i !== item);
     setArrError(newError);
@@ -89,18 +89,55 @@ const Gynaecological = ({ medicalIndex }) => {
             flexDirection: 'column',
             backgroundColor: AppColor.white
           }}>
+          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+            <Text style={{ fontSize: scaledSize(14) }}>Đẻ thường</Text>
+            <TextInput
+              style={styles.inputForm}
+              value={normalBorn}
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                if (arrError.includes('normalBorn')) {
+                  clearError('normalBorn');
+                }
+                setNormalBorn(text);
+              }}
+            />
+            {arrError.includes('normalBorn') && (
+              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
+            )}
+          </View>
+
+          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+            <Text style={{ fontSize: scaledSize(14) }}>Đẻ mổ</Text>
+            <TextInput
+              style={styles.inputForm}
+              value={caesarean}
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                if (arrError.includes('caesarean')) {
+                  clearError('caesarean');
+                }
+                setCaesarean(text);
+              }}
+            />
+            {arrError.includes('caesarean') && (
+              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
+            )}
+          </View>
+     
           <View
             style={{
               flexDirection: 'column',
               marginTop: scaledSize(16),
               zIndex: 1000,
-              minHeight: isOpenDropdown ? 150 : 0
+              minHeight: isOpenDrop1 ? 150 : 0
             }}>
             <Text style={{ fontSize: scaledSize(14) }}>Tiền sử kinh nguyệt</Text>
+
             <DropDownPicker
-              onClose={() => setOpenDropdown(false)}
-              onOpen={() => setOpenDropdown(true)}
-              items={menstrual}
+              onOpen={() => setOpenDrop1(true)}
+              onClose={() => setOpenDrop1(false)}
+              items={evenlyMenstrualHistory}
               labelStyle={{
                 fontSize: scaledSize(14),
                 fontWeight: '400',
@@ -111,10 +148,17 @@ const Gynaecological = ({ medicalIndex }) => {
                 justifyContent: 'flex-start'
               }}
               placeholder="Chọn"
-              onChangeItem={(item) => setIsEvenlyMenstrualHistory(item.value)}
+              onChangeItem={(item) => {
+                if (arrError.includes('isEvenlyMenstrualHistory')) {
+                  clearError('isEvenlyMenstrualHistory');
+                }
+                setIsEvenlyMenstrualHistory(item.value);
+              }}
             />
+            {arrError.includes('isEvenlyMenstrualHistory') && (
+              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
+            )}
           </View>
-
           <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
             <Text style={{ fontSize: scaledSize(14) }}>Chu kỳ kinh nguyệt</Text>
             <TextInput
@@ -131,11 +175,13 @@ const Gynaecological = ({ medicalIndex }) => {
               <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
             )}
           </View>
+
           <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Thời gian</Text>
+            <Text style={{ fontSize: scaledSize(14) }}>Thời gian hành kinh</Text>
             <TextInput
               style={styles.inputForm}
               value={duringTime}
+              onChangeText={(text) => setTestResult(text)}
               onChangeText={(text) => {
                 if (arrError.includes('duringTime')) {
                   clearError('duringTime');
@@ -147,71 +193,24 @@ const Gynaecological = ({ medicalIndex }) => {
               <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
             )}
           </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Số lượng</Text>
-            <TextInput
-              style={styles.inputForm}
-              value={quantity}
-              onChangeText={(text) => {
-                if (arrError.includes('quantity')) {
-                  clearError('quantity');
-                }
-                setQuantity(text);
-              }}
-            />
-            {arrError.includes('quantity') && (
-              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-            )}
-          </View>
+
           <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
             <Text style={{ fontSize: scaledSize(14) }}>Kinh nguyệt hiện tại</Text>
             <TextInput
               style={styles.inputForm}
-              value={amenorrhea}
-              placeholder="Mất kinh"
+              value={currentMenstrual}
               onChangeText={(text) => {
-                if (arrError.includes('amenorrhea')) {
-                  clearError('amenorrhea');
+                if (arrError.includes('currentMenstrual')) {
+                  clearError('currentMenstrual');
                 }
-                setAmenorrhea(text);
+                setCurrentMenstrual(text);
               }}
             />
-            {arrError.includes('amenorrhea') && (
+            {arrError.includes('currentMenstrual') && (
               <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
             )}
           </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <TextInput
-              style={styles.inputForm}
-              placeholder="Rong kinh bất thường"
-              value={menorrhagia}
-              onChangeText={(text) => {
-                if (arrError.includes('menorrhagia')) {
-                  clearError('menorrhagia');
-                }
-                setMenorrhagia(text);
-              }}
-            />
-            {arrError.includes('menorrhagia') && (
-              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-            )}
-          </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <TextInput
-              style={styles.inputForm}
-              placeholder="Ra máu bất thường"
-              value={unusualBleeding}
-              onChangeText={(text) => {
-                if (arrError.includes('unusualBleeding')) {
-                  clearError('unusualBleeding');
-                }
-                setUnusualBleeding(text);
-              }}
-            />
-            {arrError.includes('unusualBleeding') && (
-              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-            )}
-          </View>
+          
           <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
             <Text style={{ fontSize: scaledSize(14) }}>Lý do đến khám</Text>
             <TextInput
@@ -224,46 +223,16 @@ const Gynaecological = ({ medicalIndex }) => {
                 setReasonForExam(text);
               }}
             />
-            {arrError.includes('reasonForExam') && (
+            {arrError.includes('treatreasonForExamment') && (
               <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
             )}
           </View>
+
           <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Dấu hiệu khác</Text>
+            <Text style={{ fontSize: scaledSize(14) }}>Khám lâm sàng</Text>
             <TextInput
               style={styles.inputForm}
-              value={otherSignal}
-              onChangeText={(text) => {
-                if (arrError.includes('otherSignal')) {
-                  clearError('otherSignal');
-                }
-                setOtherSignal(text);
-              }}
-            />
-            {arrError.includes('otherSignal') && (
-              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-            )}
-          </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Tư vấn chăm sóc</Text>
-            <TextInput
-              style={styles.inputForm}
-              value={careAdvice}
-              onChangeText={(text) => {
-                if (arrError.includes('careAdvice')) {
-                  clearError('careAdvice');
-                }
-                setCareAdvice(text);
-              }}
-            />
-            {arrError.includes('careAdvice') && (
-              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-            )}
-          </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Tầng sinh môn</Text>
-            <TextInput
-              style={styles.inputForm}
+              placeholder="Âm hộ, tầng sinh môn"
               value={vulvaAndPerineal}
               onChangeText={(text) => {
                 if (arrError.includes('vulvaAndPerineal')) {
@@ -275,27 +244,10 @@ const Gynaecological = ({ medicalIndex }) => {
             {arrError.includes('vulvaAndPerineal') && (
               <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
             )}
-          </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Âm đạo</Text>
+
             <TextInput
               style={styles.inputForm}
-              value={vagina}
-              onChangeText={(text) => {
-                if (arrError.includes('vagina')) {
-                  clearError('vagina');
-                }
-                setVagina(text);
-              }}
-            />
-            {arrError.includes('vagina') && (
-              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
-            )}
-          </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Cổ tử cung</Text>
-            <TextInput
-              style={styles.inputForm}
+              placeholder="Tử cung"
               value={cervical}
               onChangeText={(text) => {
                 if (arrError.includes('cervical')) {
@@ -307,10 +259,9 @@ const Gynaecological = ({ medicalIndex }) => {
             {arrError.includes('cervical') && (
               <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
             )}
-          </View>
-          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
-            <Text style={{ fontSize: scaledSize(14) }}>Tử cung - phần phụ</Text>
+
             <TextInput
+              placeholder="Tử cung - phần phụ"
               style={styles.inputForm}
               value={uterusExtra}
               onChangeText={(text) => {
@@ -324,6 +275,64 @@ const Gynaecological = ({ medicalIndex }) => {
               <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
             )}
           </View>
+
+          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+            <Text style={{ fontSize: scaledSize(14) }}>Dấu hiệu khác</Text>
+            <TextInput
+              style={styles.inputForm}
+              value={otherSignal}
+              onChangeText={(text) => {
+                setOtherSignal(text);
+              }}
+            />
+           
+          </View>
+
+          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+            <Text style={{ fontSize: scaledSize(14) }}>Điều trị</Text>
+            <TextInput
+              style={styles.inputForm}
+              value={treatment}
+              onChangeText={(text) => {
+              
+                setTreatment(text);
+              }}
+            />
+          
+          </View>
+
+          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+            <Text style={{ fontSize: scaledSize(14) }}>Phương pháp hỗ trợ</Text>
+            <TextInput
+              style={styles.inputForm}
+              value={supportMethod}
+              onChangeText={(text) => {
+                if (arrError.includes('supportMethod')) {
+                  clearError('supportMethod');
+                }
+                setSupportMethod(text);
+              }}
+            />
+            {arrError.includes('supportMethod') && (
+              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
+            )}
+          </View>
+          <View style={{ flexDirection: 'column', marginTop: scaledSize(16) }}>
+            <Text style={{ fontSize: scaledSize(14) }}>Hẹn khám lại</Text>
+            <TextInput
+              style={styles.inputForm}
+              value={examAgain}
+              onChangeText={(text) => {
+                if (arrError.includes('examAgain')) {
+                  clearError('examAgain');
+                }
+                setExamAgain(text);
+              }}
+            />
+            {arrError.includes('examAgain') && (
+              <Text style={{ color: 'red', marginTop: scaledSize(5) }}>Đây là trường bắt buộc</Text>
+            )}
+          </View>
         </View>
         <View
           style={{
@@ -332,20 +341,7 @@ const Gynaecological = ({ medicalIndex }) => {
             margin: scaledSize(20),
             paddingBottom: scaledSize(20)
           }}>
-          {/* <Button
-            title="XÁC NHẬN"
-            type="clear"
-            containerStyle={{
-              width: '100%',
-              paddingHorizontal: scaledSize(6),
-              borderWidth: 0.5,
-              marginLeft: scaledSize(10),
-              backgroundColor: AppColor.color_main
-            }}
-            titleStyle={{ color: AppColor.white, fontSize: scaledSize(13), fontWeight: '500' }}
-            onPress={() =>handleAddMedicalIndex()}
-          /> */}
-
+          
           <ButtonText
             buttonStyle={{ paddingHorizontal: scaledSize(10), width: '100%' }}
             textStyle={{ fontWeight: '500' }}
@@ -372,4 +368,4 @@ const styles = StyleSheet.create({
     fontSize: scaledSize(14)
   }
 });
-export default Gynaecological;
+export default Infertility;
